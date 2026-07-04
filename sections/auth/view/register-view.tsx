@@ -19,11 +19,13 @@ import {
 } from "@/components/ui/card"
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import { PasswordInput } from "@/components/password-input"
+import { Logo } from "@/components/logo"
 import { getDashboardPath, useAuth } from "@/providers/auth-provider"
 import { UserRole } from "@/types/user"
 
 const baseSchema = z.object({
-  fullName: z.string().min(1, "Full name is required."),
+  fullName: z.string().optional(),
   email: z.string().min(1, "Email is required.").email("Enter a valid email."),
   password: z.string().min(6, "Password must be at least 6 characters."),
   phone: z.string().optional(),
@@ -38,8 +40,16 @@ export default function RegisterView({ role }: RegisterViewProps) {
   const { register: registerUser } = useAuth()
   const router = useRouter()
   const isOrganiser = role === "organiser"
+  const isAdmin = role === "admin"
 
   const formSchema = baseSchema.superRefine((data, ctx) => {
+    if (!isAdmin && !data.fullName?.trim()) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Full name is required.",
+        path: ["fullName"],
+      })
+    }
     if (isOrganiser && !data.organisation?.trim()) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -66,7 +76,7 @@ export default function RegisterView({ role }: RegisterViewProps) {
         email: data.email,
         password: data.password,
         role,
-        full_name: data.fullName,
+        full_name: data.fullName?.trim() || undefined,
         phone: data.phone || undefined,
         organisation: isOrganiser ? data.organisation : undefined,
       })
@@ -95,30 +105,45 @@ export default function RegisterView({ role }: RegisterViewProps) {
           Back to Home
         </Link>
         <Card className="w-full border-primary/20 shadow-lg sm:max-w-md">
-          <CardHeader className="space-y-1">
+          <CardHeader className="space-y-4">
+            <div className="flex justify-center">
+              <Logo showText size={40} />
+            </div>
+            <div className="space-y-1 text-center">
             <CardTitle className="text-2xl font-bold tracking-tight">
-              {isOrganiser ? "Register as Organiser" : "Register as Attendee"}
+              {isAdmin
+                ? "Register as Admin"
+                : isOrganiser
+                  ? "Register as Organiser"
+                  : "Register as Attendee"}
             </CardTitle>
             <CardDescription>
-              Create your account to {isOrganiser ? "manage sessions" : "build your agenda"}.
+              {isAdmin
+                ? "Create an administrator account to manage users and sessions."
+                : isOrganiser
+                  ? "Create your account to manage sessions."
+                  : "Create your account to build your agenda."}
             </CardDescription>
+            </div>
           </CardHeader>
           <CardContent>
             <form id="register-form" onSubmit={form.handleSubmit(onSubmit)}>
               <FieldGroup>
-                <Controller
-                  name="fullName"
-                  control={form.control}
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={field.name}>Full Name</FieldLabel>
-                      <Input {...field} id={field.name} placeholder="Jane Doe" />
-                      {fieldState.invalid && (
-                        <FieldError errors={[fieldState.error]} />
-                      )}
-                    </Field>
-                  )}
-                />
+                {!isAdmin && (
+                  <Controller
+                    name="fullName"
+                    control={form.control}
+                    render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor={field.name}>Full Name</FieldLabel>
+                        <Input {...field} id={field.name} placeholder="Jane Doe" />
+                        {fieldState.invalid && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
+                      </Field>
+                    )}
+                  />
+                )}
                 {isOrganiser && (
                   <Controller
                     name="organisation"
@@ -159,10 +184,9 @@ export default function RegisterView({ role }: RegisterViewProps) {
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
                       <FieldLabel htmlFor={field.name}>Password</FieldLabel>
-                      <Input
+                      <PasswordInput
                         {...field}
                         id={field.name}
-                        type="password"
                         autoComplete="new-password"
                         placeholder="••••••••"
                       />
@@ -172,19 +196,21 @@ export default function RegisterView({ role }: RegisterViewProps) {
                     </Field>
                   )}
                 />
-                <Controller
-                  name="phone"
-                  control={form.control}
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={field.name}>Phone (optional)</FieldLabel>
-                      <Input {...field} id={field.name} placeholder="+1 555 0100" />
-                      {fieldState.invalid && (
-                        <FieldError errors={[fieldState.error]} />
-                      )}
-                    </Field>
-                  )}
-                />
+                {!isAdmin && (
+                  <Controller
+                    name="phone"
+                    control={form.control}
+                    render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor={field.name}>Phone (optional)</FieldLabel>
+                        <Input {...field} id={field.name} placeholder="+1 555 0100" />
+                        {fieldState.invalid && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
+                      </Field>
+                    )}
+                  />
+                )}
               </FieldGroup>
             </form>
           </CardContent>

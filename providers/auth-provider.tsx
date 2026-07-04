@@ -95,6 +95,7 @@ export function useAuth() {
 }
 
 export function getDashboardPath(role: string): string {
+  if (role === "admin") return "/admin/dashboard"
   if (role === "organiser") return "/organiser/dashboard"
   if (role === "attendee") return "/attendee/dashboard"
   return "/"

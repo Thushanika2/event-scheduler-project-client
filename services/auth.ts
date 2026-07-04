@@ -5,7 +5,7 @@ export interface RegisterPayload {
   email: string
   password: string
   role: UserRole
-  full_name: string
+  full_name?: string
   organisation?: string
   phone?: string
 }

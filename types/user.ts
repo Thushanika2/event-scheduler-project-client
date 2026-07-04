@@ -1,7 +1,7 @@
 import { Attendee } from "./attendee"
 import { Organiser } from "./organiser"
 
-export type UserRole = "attendee" | "organiser"
+export type UserRole = "attendee" | "organiser" | "admin"
 
 export interface User {
   id: number
