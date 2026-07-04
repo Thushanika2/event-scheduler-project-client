@@ -65,10 +65,10 @@ export function PortalLayout({ children, role, title }: PortalLayoutProps) {
 
   return (
     <AuthenticatedRoute allowedRoles={[role]}>
-      <div className="flex min-h-screen bg-zinc-50 text-foreground transition-colors duration-300 dark:bg-zinc-950">
+      <div className="flex min-h-screen bg-background text-foreground transition-colors duration-300">
         {isMobileOpen && (
           <div
-            className="fixed inset-0 z-40 bg-zinc-950/40 backdrop-blur-xs md:hidden"
+            className="fixed inset-0 z-40 bg-foreground/20 backdrop-blur-xs md:hidden"
             onClick={() => setIsMobileOpen(false)}
           />
         )}

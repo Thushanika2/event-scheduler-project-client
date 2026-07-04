@@ -54,7 +54,7 @@ export default function LoginView() {
 
   return (
     <GuestRoute>
-      <div className="flex min-h-svh flex-col items-center justify-center bg-linear-to-b from-background to-zinc-50/50 p-6 dark:to-zinc-950/20">
+      <div className="flex min-h-svh flex-col items-center justify-center bg-linear-to-b from-background to-primary/5 p-6 dark:to-primary/10">
         <Link
           href="/"
           className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
@@ -62,7 +62,7 @@ export default function LoginView() {
           <ArrowLeft className="size-4" />
           Back to Home
         </Link>
-        <Card className="w-full border-zinc-200/50 shadow-lg sm:max-w-md dark:border-zinc-800/50">
+        <Card className="w-full border-primary/20 shadow-lg sm:max-w-md">
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold tracking-tight">
               Sign In
