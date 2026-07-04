@@ -1,6 +1,6 @@
-# Event Scheduler Client
+# AgendaFlow Client
 
-Next.js frontend for the event-scheduler application. Public schedule browsing, role-based portals for attendees and organisers, and JWT authentication against the Flask API.
+Next.js frontend for AgendaFlow — public schedule browsing, role-based portals for attendees and organisers, and JWT authentication against the Flask API.
 
 ## Tech Stack
 

@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/card"
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import { PasswordInput } from "@/components/password-input"
+import { Logo } from "@/components/logo"
 import { getDashboardPath, useAuth } from "@/providers/auth-provider"
 
 const formSchema = z.object({
@@ -63,13 +65,18 @@ export default function LoginView() {
           Back to Home
         </Link>
         <Card className="w-full border-primary/20 shadow-lg sm:max-w-md">
-          <CardHeader className="space-y-1">
+          <CardHeader className="space-y-4">
+            <div className="flex justify-center">
+              <Logo showText size={40} />
+            </div>
+            <div className="space-y-1 text-center">
             <CardTitle className="text-2xl font-bold tracking-tight">
               Sign In
             </CardTitle>
             <CardDescription>
               Enter your credentials to access your portal.
             </CardDescription>
+            </div>
           </CardHeader>
           <CardContent>
             <form id="login-form" onSubmit={form.handleSubmit(onSubmit)}>
@@ -99,10 +106,9 @@ export default function LoginView() {
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
                       <FieldLabel htmlFor={field.name}>Password</FieldLabel>
-                      <Input
+                      <PasswordInput
                         {...field}
                         id={field.name}
-                        type="password"
                         autoComplete="current-password"
                         placeholder="••••••••"
                       />

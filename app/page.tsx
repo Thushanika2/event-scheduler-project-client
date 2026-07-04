@@ -1,15 +1,15 @@
 import Link from "next/link"
-import { CalendarDays, LogIn, UserPlus } from "lucide-react"
+import { LogIn, Shield, UserPlus } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Logo, LogoMark } from "@/components/logo"
 
 export default function Page() {
   return (
     <div className="flex min-h-svh flex-col">
       <header className="border-b border-border bg-card">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <Link href="/" className="flex items-center gap-2 font-bold">
-            <CalendarDays className="h-6 w-6" />
-            Event Scheduler
+          <Link href="/" className="hover:opacity-90">
+            <Logo showText />
           </Link>
           <nav className="flex items-center gap-2">
             <Button variant="ghost" asChild>
@@ -33,12 +33,15 @@ export default function Page() {
 
       <main className="flex flex-1 flex-col items-center justify-center px-6 py-16 text-center">
         <div className="max-w-2xl space-y-6">
+          <div className="flex justify-center">
+            <LogoMark size={72} className="drop-shadow-sm" />
+          </div>
           <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
-            Plan Your Conference Experience
+            AgendaFlow
           </h1>
           <p className="text-lg text-muted-foreground">
-            Browse sessions by track and time, build your personal agenda, and
-            manage conference sessions as an organiser.
+            Plan your conference experience — browse sessions by track and time,
+            build your personal agenda, and manage events as an organiser.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <Button size="lg" asChild>
@@ -49,6 +52,12 @@ export default function Page() {
             </Button>
             <Button size="lg" variant="secondary" asChild>
               <Link href="/auth/register/organiser">Register as Organiser</Link>
+            </Button>
+            <Button size="lg" variant="outline" asChild>
+              <Link href="/auth/register/admin">
+                <Shield className="mr-2 h-4 w-4" />
+                Register as Admin
+              </Link>
             </Button>
           </div>
         </div>

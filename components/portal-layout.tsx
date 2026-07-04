@@ -16,9 +16,11 @@ import {
   Moon,
   Sun,
   User,
+  Users,
   X,
 } from "lucide-react"
 import { AuthenticatedRoute } from "@/components/auth-guard"
+import { Logo, LogoMark } from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/providers/auth-provider"
 import { UserRole } from "@/types/user"
@@ -41,6 +43,12 @@ const organiserMenu: MenuItem[] = [
   { title: "Profile", href: "/organiser/profile", icon: User },
 ]
 
+const adminMenu: MenuItem[] = [
+  { title: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
+  { title: "Users", href: "/admin/users", icon: Users },
+  { title: "Sessions", href: "/admin/sessions", icon: CalendarDays },
+]
+
 interface PortalLayoutProps {
   children: React.ReactNode
   role: UserRole
@@ -54,7 +62,12 @@ export function PortalLayout({ children, role, title }: PortalLayoutProps) {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isMobileOpen, setIsMobileOpen] = useState(false)
 
-  const menuItems = role === "organiser" ? organiserMenu : attendeeMenu
+  const menuItems =
+    role === "admin"
+      ? adminMenu
+      : role === "organiser"
+        ? organiserMenu
+        : attendeeMenu
 
   const activeLink = (href: string) => {
     if (href.endsWith("/dashboard")) {
@@ -81,13 +94,12 @@ export function PortalLayout({ children, role, title }: PortalLayoutProps) {
           <div className="flex h-16 items-center justify-between border-b border-border/60 px-4">
             <Link
               href="/"
-              className="flex items-center gap-2.5 overflow-hidden hover:opacity-90"
+              className="flex min-w-0 items-center overflow-hidden hover:opacity-90"
             >
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
-                <CalendarDays className="h-5 w-5" />
-              </div>
-              {!isCollapsed && (
-                <span className="text-base font-bold tracking-tight">{title}</span>
+              {isCollapsed ? (
+                <LogoMark size={36} />
+              ) : (
+                <Logo showText subtitle={title.replace("AgendaFlow ", "")} size={36} />
               )}
             </Link>
             <Button
@@ -189,11 +201,8 @@ export function PortalLayout({ children, role, title }: PortalLayoutProps) {
 
         <div className="flex min-w-0 flex-1 flex-col">
           <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-card px-4 md:hidden">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <CalendarDays className="h-4.5 w-4.5" />
-              </div>
-              <span className="text-sm font-bold tracking-tight">{title}</span>
+            <Link href="/" className="hover:opacity-90">
+              <Logo showText size={28} />
             </Link>
             <Button
               variant="outline"

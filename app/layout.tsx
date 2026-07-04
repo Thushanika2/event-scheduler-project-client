@@ -14,7 +14,7 @@ const fontMono = Geist_Mono({
 })
 
 export const metadata = {
-  title: "Event Scheduler",
+  title: "AgendaFlow",
   description: "Conference session scheduling and personal agenda builder",
 }
 

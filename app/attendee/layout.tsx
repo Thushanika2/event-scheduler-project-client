@@ -6,7 +6,7 @@ export default function AttendeeLayout({
   children: React.ReactNode
 }) {
   return (
-    <PortalLayout role="attendee" title="Attendee Portal">
+    <PortalLayout role="attendee" title="AgendaFlow Attendee">
       {children}
     </PortalLayout>
   )

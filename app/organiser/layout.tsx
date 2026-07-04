@@ -6,7 +6,7 @@ export default function OrganiserLayout({
   children: React.ReactNode
 }) {
   return (
-    <PortalLayout role="organiser" title="Organiser Portal">
+    <PortalLayout role="organiser" title="AgendaFlow Organiser">
       {children}
     </PortalLayout>
   )
