@@ -2,8 +2,11 @@ import Link from "next/link"
 import { LogIn, Shield, UserPlus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Logo, LogoMark } from "@/components/logo"
+import { getAdminRegistrationStatus } from "@/services/auth"
 
-export default function Page() {
+export default async function Page() {
+  const adminRegistrationAvailable = await getAdminRegistrationStatus()
+
   return (
     <div className="flex min-h-svh flex-col">
       <header className="border-b border-border bg-card">
@@ -53,12 +56,14 @@ export default function Page() {
             <Button size="lg" variant="secondary" asChild>
               <Link href="/auth/register/organiser">Register as Organiser</Link>
             </Button>
-            <Button size="lg" variant="outline" asChild>
-              <Link href="/auth/register/admin">
-                <Shield className="mr-2 h-4 w-4" />
-                Register as Admin
-              </Link>
-            </Button>
+            {adminRegistrationAvailable && (
+              <Button size="lg" variant="outline" asChild>
+                <Link href="/auth/register/admin">
+                  <Shield className="mr-2 h-4 w-4" />
+                  Register as Admin
+                </Link>
+              </Button>
+            )}
           </div>
         </div>
       </main>
